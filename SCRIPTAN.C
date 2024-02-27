@@ -2,6 +2,9 @@
 #include <conio.h>
 #include <string.h>
 #include <stdlib.h>
+#define TURBOC_GRAPHICS
+#define BGI "C:\\turboc3\\bgi"
+
 
 void earthOnSpace(int *rx, int *ry)
 {
@@ -96,15 +99,16 @@ void marsOnSpace(int *rx, int *ry)
   }
 }
 
-void typeOnScreen(char *sc)
+void typeOnScreen(char *sc,int xpos, int ypos)
 {
   int i;
-  int text, pos;
+  int text;
+  if(ypos == 0)
   cleardevice();
   for (i = 0; i < strlen(sc); i++)
   {
     text = sc[i];
-    outtextxy(200 + i * 10, 239, &text);
+    outtextxy(200+xpos + i * 10, 239+ypos, &text);
     delay(100);
   }
 }
@@ -124,27 +128,40 @@ void countDown()
   }
 }
 
-void script()
+void script(int control)
 {
-  char sc1[] = "Hello fellow adventurer",
-       sc2[] = "Let's go to mars";
+       char sc1[] = "Hello fellow adventurer",
+       sc2[] = "Let's go to mars",
+       sc3[] = "Mission Successful",
+       sc4[] = "Animation Project by",
+       sc5[] = "Rijan Bhandari",
+       sc6[] = "and",
+       sc7[] = "Vinam Kumar Shrestha";
 
-  typeOnScreen(sc1);
+  if (control == 1)
+{
+
+  typeOnScreen(sc1,0,0);
   delay(100);
-  typeOnScreen(sc2);
+  typeOnScreen(sc2,20,0);
   delay(100);
   countDown();
-}
-/*
-void outerspace()
-{
-  earthOnSpace();
-  delay(1000);
-  cleardevice();
-  marsOnSpace();
+  }
+  else
+  {
+    typeOnScreen(sc3,4,-120);
+    delay(100);
+    typeOnScreen(sc4,4,-100);
+    delay(100);
+    typeOnScreen(sc5,4,-80);
+    delay(100);
+    typeOnScreen(sc6,4,-65);
+    delay(100);
+    typeOnScreen(sc7,4,-50);
+  }
 
 }
-*/
+
 void rocket(int x, int y, int rl)
 {
   int i, fireEffect;
@@ -224,18 +241,13 @@ void motion(int x, int y, int rl, int move, int choice, int *rx, int *ry)
   }
 }
 
-#include <conio.h>
-#include <graphics.h>
-#include <stdio.h>
-#define TURBOC_GRAPHICS
-#define BGI "C:\\turboc3\\bgi"
 
-void drawRocket(float scaleFactor, int x, int y)
+void drawRocket(float scaleFactor, int x, int y,int control)
 {
   int i;
   x = x + 29;
   y = y + 50;
-  // setfillstyle(SOLID_FILL, WHITE);
+
   // main rocket base
   y = y - 2;
   setcolor(DARKGRAY);
@@ -244,22 +256,25 @@ void drawRocket(float scaleFactor, int x, int y)
     line(x, y, x + i, y + 20); // upper triangle
     line(x, y, x - i, y + 20); // lower triangle
   }
+
   x = x - 27;
+ if(control ==1){
   // left booster base
   for (i = 0; i < 12; i++)
   {
     line(x, y, x + i, y + 20); // upper triangle
     line(x, y, x - i, y + 20); // lower triangle
   }
-
+  }
   x = x + 27 + 27;
+  if (control ==1){
   // right booster base
   for (i = 0; i < 12; i++)
   {
     line(x, y, x + i, y + 20); // upper triangle
     line(x, y, x - i, y + 20); // lower triangle
   }
-
+  }
   setcolor(WHITE);
   x = x - 55;
   y = y - 170;
@@ -280,7 +295,8 @@ void drawRocket(float scaleFactor, int x, int y)
   {
     ellipse(x + 28, y + 15 - i, 0, 180, 12 * scaleFactor, 12 * scaleFactor);
   }
-
+  if (control == 1)
+  {
   // leftbooster body
   for (i = 0; i < 135; i++)
   {
@@ -302,9 +318,10 @@ void drawRocket(float scaleFactor, int x, int y)
   {
     ellipse(x + 54, y + 60 - i, 0, 180, 11 * scaleFactor, 11 * scaleFactor);
   }
+  }
 }
 
-void drawFlames(float scaleFactor, int x, int y)
+void drawFlames(float scaleFactor, int x, int y, int control)
 {
   // Body flames
   y = y + 55;
@@ -316,7 +333,8 @@ void drawFlames(float scaleFactor, int x, int y)
   floodfill(x + 28, y + 50, 14);
   circle(x + 28, y + 65, 8 * scaleFactor);
   floodfill(x + 28, y + 65, 14);
-
+  if (control == 1)
+  {
   // Booster 1 flames
   circle(x + 2, y + 24, 14 * scaleFactor);
   floodfill(x + 2, y + 24, 14);
@@ -332,25 +350,39 @@ void drawFlames(float scaleFactor, int x, int y)
   floodfill(x + 55, y + 40, 14);
   circle(x + 55, y + 55, 8 * scaleFactor);
   floodfill(x + 55, y + 55, 14);
+  }
+
 }
 
-void drawScene(float scaleFactor, int x, int y)
-{
+void drawScene(float scaleFactor, int x, int y,int control)
+{ if (control == 1)
   // Background
-  setfillstyle(SOLID_FILL, LIGHTCYAN);
+  {setfillstyle(SOLID_FILL, LIGHTCYAN);
   floodfill(50, 50, LIGHTCYAN);
 
-  // Ground
   setcolor(GREEN);
   setfillstyle(SOLID_FILL, GREEN);
   rectangle(0, 420, 650, 500);
   floodfill(325, 460, WHITE);
 
+  }
+
+  else
+  {
+    setfillstyle(SOLID_FILL, RED);
+    floodfill(50, 50, RED);
+
+      setcolor(BROWN);
+  setfillstyle(SOLID_FILL, BROWN);
+  rectangle(0, 420, 650, 500);
+  floodfill(325, 460, WHITE);
+  }
+  if (control != 2)
   // Draw Flames
-  drawFlames(scaleFactor, x, y);
+  drawFlames(scaleFactor, x, y,control);
 
   // Draw Rocket
-  drawRocket(scaleFactor, x, y);
+  drawRocket(scaleFactor, x, y,control);
 }
 
 int main()
@@ -360,19 +392,24 @@ int main()
   int xo, yo, rl, rx[501], ry[501], x, y,i;
   initgraph(&gd, &gm, "c:\\TurboC3\\BGI");
   x = 300, y = 300;
+
+  script(1);
+
   setbkcolor(LIGHTCYAN);
   // Initial scene
-  drawScene(1, x, y);
+  drawScene(1, x, y,1);
 
   // Animation
   for (i = 1; i <= 330; i += 10)
   {
-    // setactivepage(0);
-    drawScene(1.0, x, y - i);
-    // setvisualpage(0);
-    delay(70); // Adjust as needed
+
+    drawScene(1.0, x, y - i,1);
+
+    delay(70);
     cleardevice();
   }
+
+
   setbkcolor(BLACK);
   // Set the initial position of the rocket on space
   xo = 100; // x axis of rocket
@@ -384,7 +421,27 @@ int main()
   rocket(xo, yo, rl);
   motion(xo, yo, rl, move, 1, rx, ry);
   motion(xo - 20, yo, rl, move, 0, rx, ry);
-  // outerspace();
+
+  cleardevice();
+    setbkcolor(RED);
+  // Initial scene
+  drawScene(1, x, y,0);
+
+  // Animation
+  for (i = 330; i >= -5; i -= 5)
+  {
+    drawScene(1.0, x, y - i,0);
+    // turn off busters when lands
+    if(i == 3)
+    drawScene(1.0,x,y-i,2);
+
+    delay(70);
+
+    cleardevice();
+  }
+  drawScene(1.0,x,y+50,2);
+  delay(100);
+  script(0);
   getch();
   closegraph();
   return 0;
