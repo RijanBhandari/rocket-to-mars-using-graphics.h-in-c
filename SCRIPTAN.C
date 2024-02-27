@@ -10,7 +10,7 @@ void earthOnSpace(int *rx, int *ry)
   earthRadius = 100;
   earthCenterX = 10;
   earthCenterY = 250;
-  //printf("x = %d and y = %d", earthCenterX, earthCenterY);
+  // printf("x = %d and y = %d", earthCenterX, earthCenterY);
   setcolor(BLUE);
   setfillstyle(SOLID_FILL, BLUE);
   fillellipse(earthCenterX, earthCenterY, earthRadius, earthRadius);
@@ -35,17 +35,17 @@ void earthOnSpace(int *rx, int *ry)
 
   for (i = 0; i < 500; i++)
   {
-    x = rx[i]/50;
-    y = ry[i]/80;
+    x = rx[i] / 50;
+    y = ry[i] / 80;
 
     // remove the stars from the earth
     if (y > earthCenterY - earthRadius && y < earthCenterY + earthRadius && x < earthCenterX + earthRadius)
     {
       x += earthCenterX + earthRadius;
     }
-    //Draw stars
+    // Draw stars
     putpixel(x, y, WHITE);
-    //To make stars more visible
+    // To make stars more visible
     if (x % 2 == 0)
       putpixel(x + 1, y, WHITE);
     else
@@ -55,12 +55,12 @@ void earthOnSpace(int *rx, int *ry)
 
 void marsOnSpace(int *rx, int *ry)
 {
-int x, y, marsRadius, marsCenterX, marsCenterY, i;
+  int x, y, marsRadius, marsCenterX, marsCenterY, i;
   // Draw the Mars (a Red circle)
   marsRadius = 100;
   marsCenterX = 640;
   marsCenterY = 250;
-  //printf("x = %d and y = %d", marsCenterX, marsCenterY);
+  // printf("x = %d and y = %d", marsCenterX, marsCenterY);
   setcolor(RED);
   setfillstyle(SOLID_FILL, RED);
   fillellipse(marsCenterX, marsCenterY, marsRadius, marsRadius);
@@ -69,20 +69,20 @@ int x, y, marsRadius, marsCenterX, marsCenterY, i;
   setcolor(WHITE);
   setfillstyle(SOLID_FILL, WHITE);
   // Draw poles
-  fillellipse(marsCenterX+12, marsCenterY - 98, 40, 2); // north pole
+  fillellipse(marsCenterX + 12, marsCenterY - 98, 40, 2); // north pole
   setcolor(BROWN);
-  setfillstyle(SOLID_FILL,BROWN);
+  setfillstyle(SOLID_FILL, BROWN);
   fillellipse(marsCenterX + 4, marsCenterY - 93, 40, 4); // south pole
   setcolor(BROWN);
-  setfillstyle(SOLID_FILL,BROWN);
+  setfillstyle(SOLID_FILL, BROWN);
   fillellipse(marsCenterX + 11, marsCenterY + 96, 40, 4); // south pole
 
   setcolor(WHITE); // set drawing color to white
   // draw stars using random white pixels
   for (i = 0; i < 200; i++)
   {
-    x = rx[i]/50;
-    y = ry[i]/80;
+    x = rx[i] / 50;
+    y = ry[i] / 80;
     // remove the stars from the mars
     if (y > marsCenterY - marsRadius && y < marsCenterY + marsRadius && x > marsCenterX - marsRadius)
     {
@@ -96,149 +96,296 @@ int x, y, marsRadius, marsCenterX, marsCenterY, i;
   }
 }
 
-
-void typeOnScreen(char* sc)
+void typeOnScreen(char *sc)
 {
-   int i;
-   int text,pos;
-   cleardevice();
-   for (i=0; i< strlen(sc); i++)
-   {
-	text = sc[i];
-	outtextxy(200+i*10,239,&text);
-	delay(100);
-   }
+  int i;
+  int text, pos;
+  cleardevice();
+  for (i = 0; i < strlen(sc); i++)
+  {
+    text = sc[i];
+    outtextxy(200 + i * 10, 239, &text);
+    delay(100);
+  }
 }
 
-
-void countDown(){
-	int i;
-	char count[] = "9 8 7 6 5 4 3 2 1";
-	char text[2];
-	for (i=0; i < strlen(count); i++)
-	{
-		text[0] = count[i];
-		text[1] = '\0';
-		delay(500);
-		cleardevice();
-		outtextxy(319,239,&text);
-	}
+void countDown()
+{
+  int i;
+  char count[] = "9 8 7 6 5 4 3 2 1";
+  char text[2];
+  for (i = 0; i < strlen(count); i++)
+  {
+    text[0] = count[i];
+    text[1] = '\0';
+    delay(500);
+    cleardevice();
+    outtextxy(319, 239, &text);
+  }
 }
 
 void script()
 {
-	char sc1[] = "Hello fellow adventurer",
-	sc2[] = "Let's go to mars";
+  char sc1[] = "Hello fellow adventurer",
+       sc2[] = "Let's go to mars";
 
-	typeOnScreen(sc1);
-	delay(100);
-	typeOnScreen(sc2);
-	delay(100);
-	countDown();
+  typeOnScreen(sc1);
+  delay(100);
+  typeOnScreen(sc2);
+  delay(100);
+  countDown();
 }
 /*
 void outerspace()
 {
-	earthOnSpace();
-	delay(1000);
-	cleardevice();
-	marsOnSpace();
+  earthOnSpace();
+  delay(1000);
+  cleardevice();
+  marsOnSpace();
 
 }
 */
 void rocket(int x, int y, int rl)
 {
-    int i,fireEffect;
-    setcolor(YELLOW);
+  int i, fireEffect;
+  setcolor(YELLOW);
 
-    for (i=0;i<12;i++){
-    fireEffect = i /3;
-    line(x,y+10+i,x+85,y+10); //upper triangle
-    line(x,y+10-i,x+85,y+10); //lower triangle
+  for (i = 0; i < 12; i++)
+  {
+    fireEffect = i / 3;
+    line(x, y + 10 + i, x + 85, y + 10); // upper triangle
+    line(x, y + 10 - i, x + 85, y + 10); // lower triangle
     fireEffect = -fireEffect;
-    }
-    //booster brown sceal
-    setcolor(BROWN);
-    for (i=0;i<11;i++){
-    line(x+42,y+10+i,x+85,y+10); //upper triangle
-    line(x+42,y+10-i,x+85,y+10); //lower triangle
-    }
-    //rocket fin
-    setcolor(WHITE);
-    for (i=0;i<21;i++){
-    line(x+59,y+10+i,x+130,y+10); //upper triangle
-    line(x+59,y+10-i,x+130,y+10); //lower triangle
-    }
+  }
+  // booster brown sceal
+  setcolor(BROWN);
+  for (i = 0; i < 11; i++)
+  {
+    line(x + 42, y + 10 + i, x + 85, y + 10); // upper triangle
+    line(x + 42, y + 10 - i, x + 85, y + 10); // lower triangle
+  }
+  // rocket fin
+  setcolor(WHITE);
+  for (i = 0; i < 21; i++)
+  {
+    line(x + 59, y + 10 + i, x + 130, y + 10); // upper triangle
+    line(x + 59, y + 10 - i, x + 130, y + 10); // lower triangle
+  }
 
-    // Set the rocket's color
-    setcolor(WHITE);
+  // Set the rocket's color
+  setcolor(WHITE);
 
-    // Draw the rocket
-    for (i=0;i<40;i++)
- {  if(i<21)
-    line(x+50, y+i, x + rl, y+i); // body
+  // Draw the rocket
+  for (i = 0; i < 40; i++)
+  {
+    if (i < 21)
+      line(x + 50, y + i, x + rl, y + i); // body
 
-    ellipse(x+150-i,y+10,270,90,40,10);//head
-}
+    ellipse(x + 150 - i, y + 10, 270, 90, 40, 10); // head
+  }
 }
 
 void randomFun(int *rx[], int *ry[])
-{  int i;
-   srand(time(NULL)); // initialize random seed
+{
+  int i;
+  srand(time(NULL)); // initialize random seed
   for (i = 0; i < 500; i++)
   {
-   rx[i] = rand();
-   ry[i] = rand();
+    rx[i] = rand();
+    ry[i] = rand();
+  }
 }
- }
-void motion(int x,int y,int rl,int move, int choice,int *rx,int *ry)
+void motion(int x, int y, int rl, int move, int choice, int *rx, int *ry)
 {
-	int x1= x;
-    while (1)
+  int x1 = x;
+  while (1)
+  {
+    // Move the rocket and fire to the right
+
+    x1 = x1 + 4;
+    move++;
+    // Clear the previous position of the rocket and fire
+    cleardevice();
+
+    rocket(x1, y, rl);
+    if (move < 130 && choice == 1)
     {
-	// Move the rocket and fire to the right
-
-	x1= x1+4;
-	move++;
-	// Clear the previous position of the rocket and fire
-	cleardevice();
-
-	rocket(x1,y,rl);
-	if (move<130 && choice == 1)
-	{
-		earthOnSpace(rx,ry);
-	}
-	 else if(move<60 && choice == 0)
-	 {
-	marsOnSpace(rx,ry);
-	 }
-	 else
-	 {
-	return;
-	}
-	delay(50);
+      earthOnSpace(rx, ry);
     }
+    else if (move < 60 && choice == 0)
+    {
+      marsOnSpace(rx, ry);
+    }
+    else
+    {
+      return;
+    }
+    delay(50);
+  }
 }
 
+#include <conio.h>
+#include <graphics.h>
+#include <stdio.h>
+#define TURBOC_GRAPHICS
+#define BGI "C:\\turboc3\\bgi"
 
-int main() {
-    // Initialize the graphics system
-    int gd = DETECT, gm,move = 0;
-    int x,y,rl, rx[501],ry[501];
+void drawRocket(float scaleFactor, int x, int y)
+{
+  int i;
+  x = x + 29;
+  y = y + 50;
+  // setfillstyle(SOLID_FILL, WHITE);
+  // main rocket base
+  y = y - 2;
+  setcolor(DARKGRAY);
+  for (i = 0; i < 16; i++)
+  {
+    line(x, y, x + i, y + 20); // upper triangle
+    line(x, y, x - i, y + 20); // lower triangle
+  }
+  x = x - 27;
+  // left booster base
+  for (i = 0; i < 12; i++)
+  {
+    line(x, y, x + i, y + 20); // upper triangle
+    line(x, y, x - i, y + 20); // lower triangle
+  }
 
-    // Set the initial position of the rocket
-    x = 100; // x axis of rocket
-    y = 220; //y axis of rocket
-    rl = 150; //rocket length
+  x = x + 27 + 27;
+  // right booster base
+  for (i = 0; i < 12; i++)
+  {
+    line(x, y, x + i, y + 20); // upper triangle
+    line(x, y, x - i, y + 20); // lower triangle
+  }
 
-    randomFun(rx,ry);
+  setcolor(WHITE);
+  x = x - 55;
+  y = y - 170;
+  // main rocket
+  // rocket fin
+  for (i = 0; i < 30; i++)
+  {
+    line(x + 29, y + 140, x + 29 + i, y + 170); // upper triangle
+    line(x + 29, y + 140, x + 29 - i, y + 170); // lower triangle
+  }
+  // body
+  for (i = 0; i < 180; i++)
+  {
+    line(x + 16, y + i, x + 40, y + i);
+  }
+  // head
+  for (i = 0; i < 30; i++)
+  {
+    ellipse(x + 28, y + 15 - i, 0, 180, 12 * scaleFactor, 12 * scaleFactor);
+  }
 
+  // leftbooster body
+  for (i = 0; i < 135; i++)
+  {
+    line(x - 9, y + 45 + i, x + 13, y + 45 + i);
+  }
+
+  for (i = 0; i < 30; i++)
+  {
+    ellipse(x + 2, y + 60 - i, 0, 180, 11 * scaleFactor, 11 * scaleFactor);
+  }
+
+  // Rightbooster body
+  for (i = 0; i < 135; i++)
+  {
+    line(x + 43, y + 45 + i, x + 65, y + 45 + i);
+  }
+
+  for (i = 0; i < 30; i++)
+  {
+    ellipse(x + 54, y + 60 - i, 0, 180, 11 * scaleFactor, 11 * scaleFactor);
+  }
+}
+
+void drawFlames(float scaleFactor, int x, int y)
+{
+  // Body flames
+  y = y + 55;
+  setcolor(14);
+  setfillstyle(1, 14);
+  circle(x + 28, y + 28, 17 * scaleFactor);
+  floodfill(x + 28, y + 28, 14);
+  circle(x + 28, y + 50, 11 * scaleFactor);
+  floodfill(x + 28, y + 50, 14);
+  circle(x + 28, y + 65, 8 * scaleFactor);
+  floodfill(x + 28, y + 65, 14);
+
+  // Booster 1 flames
+  circle(x + 2, y + 24, 14 * scaleFactor);
+  floodfill(x + 2, y + 24, 14);
+  circle(x + 2, y + 40, 11 * scaleFactor);
+  floodfill(x + 2, y + 40, 14);
+  circle(x + 2, y + 55, 8 * scaleFactor);
+  floodfill(x + 2, y + 55, 14);
+
+  // Booster 2 flames
+  circle(x + 55, y + 24, 14 * scaleFactor);
+  floodfill(x + 55, y + 24, 14);
+  circle(x + 55, y + 40, 11 * scaleFactor);
+  floodfill(x + 55, y + 40, 14);
+  circle(x + 55, y + 55, 8 * scaleFactor);
+  floodfill(x + 55, y + 55, 14);
+}
+
+void drawScene(float scaleFactor, int x, int y)
+{
+  // Background
+  setfillstyle(SOLID_FILL, LIGHTCYAN);
+  floodfill(50, 50, LIGHTCYAN);
+
+  // Ground
+  setcolor(GREEN);
+  setfillstyle(SOLID_FILL, GREEN);
+  rectangle(0, 420, 650, 500);
+  floodfill(325, 460, WHITE);
+
+  // Draw Flames
+  drawFlames(scaleFactor, x, y);
+
+  // Draw Rocket
+  drawRocket(scaleFactor, x, y);
+}
+
+int main()
+{
+  // Initialize the graphics system
+  int gd = DETECT, gm, move = 0;
+  int xo, yo, rl, rx[501], ry[501], x, y,i;
   initgraph(&gd, &gm, "c:\\TurboC3\\BGI");
- // script();
-  rocket(x,y,rl);
-  motion(x,y,rl,move,1,rx,ry);
-  motion(x-20,y,rl,move,0,rx,ry);
- // outerspace();
+  x = 300, y = 300;
+  setbkcolor(LIGHTCYAN);
+  // Initial scene
+  drawScene(1, x, y);
+
+  // Animation
+  for (i = 1; i <= 330; i += 10)
+  {
+    // setactivepage(0);
+    drawScene(1.0, x, y - i);
+    // setvisualpage(0);
+    delay(70); // Adjust as needed
+    cleardevice();
+  }
+  setbkcolor(BLACK);
+  // Set the initial position of the rocket on space
+  xo = 100; // x axis of rocket
+  yo = 220; // y axis of rocket
+  rl = 150; // rocket length
+
+  randomFun(rx, ry);
+
+  rocket(xo, yo, rl);
+  motion(xo, yo, rl, move, 1, rx, ry);
+  motion(xo - 20, yo, rl, move, 0, rx, ry);
+  // outerspace();
   getch();
+  closegraph();
   return 0;
 }
